@@ -5,6 +5,7 @@
 *.sln
 *.slnx
 *.vcxproj*
+*.idea*
 
 # Compiled Object files
 *.slo
