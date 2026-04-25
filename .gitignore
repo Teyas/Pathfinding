@@ -1,6 +1,11 @@
 # Prerequisites
 *.d
 
+# IDE Files
+*.sln
+*.slnx
+*.vcxproj*
+
 # Compiled Object files
 *.slo
 *.lo
