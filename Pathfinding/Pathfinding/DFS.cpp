@@ -37,7 +37,7 @@ namespace dfs
 			if (current_node_index == end_index)
 			{
 				// backtrack path
-				unsigned parent_idx = node_infos[current_node_index].parent_index;
+				int parent_idx = node_infos[current_node_index].parent_index;
 				while (parent_idx != start_index)
 				{
 					out_path.push_back(parent_idx);

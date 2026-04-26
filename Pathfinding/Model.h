@@ -13,7 +13,8 @@ public:
 	bool LoadMapData(const std::string& filepath);
 	void ForceMapData(std::vector<float>&& data, const sf::Vector2i dimensions, const sf::Vector2i start, const sf::Vector2i end);
 	void ResetData();
-	bool IsValid() const;
+	
+	[[nodiscard]]bool IsValid() const;
 
 	[[nodiscard]] const Map& GetMap() const { return m_map; }
 	[[nodiscard]] sf::Vector2i GetStartNode() const { return m_start_node; }

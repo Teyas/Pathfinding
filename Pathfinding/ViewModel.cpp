@@ -8,10 +8,9 @@ ViewModel::ViewModel(Model& model)
 {
 }
 
-bool ViewModel::RunPathfinderEvent(const PathfinderTypes type, std::vector<int>& out_path)
+bool ViewModel::RunPathfinderCommand(const PathfinderTypes type, std::vector<int>& out_path) const
 {
-	PathfindFunc func = GetFuncForType(type);
-	if (func)
+	if (PathfindFunc func = GetFuncForType(type))
 	{
 		func(m_model, out_path);
 		return true;
@@ -20,7 +19,7 @@ bool ViewModel::RunPathfinderEvent(const PathfinderTypes type, std::vector<int>&
 	return false;
 }
 
-bool ViewModel::ChangeMapEvent(const std::string& filepath)
+bool ViewModel::ChangeMapCommand(const std::string& filepath) const
 {
 	return m_model.LoadMapData(filepath);
 }

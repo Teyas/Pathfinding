@@ -9,7 +9,7 @@ public:
 	View(ViewModel& view_model);
 
 	void Init();
-	void Destroy();
+	void Destroy() const;
 
 	void Input();
 	void Update();
@@ -17,7 +17,7 @@ public:
 
 	void RefreshVisuals(const std::string& filepath);
 
-	bool IsOpen() const { return m_window.isOpen(); }
+	[[nodiscard]] bool IsOpen() const { return m_window.isOpen(); }
 private:
 	void InitWindows();
 

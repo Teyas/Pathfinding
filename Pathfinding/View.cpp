@@ -28,7 +28,7 @@ void View::Init()
 	InitWindows();
 }
 
-void View::Destroy()
+void View::Destroy() const
 {
 	ImGui::SFML::Shutdown();
 }
@@ -53,14 +53,14 @@ void View::ProcessMainWindowInput()
 			const bool is_up = wheel_event->delta > 0;
 			m_map_sprite.scale(is_up ? sf::Vector2f{ 1.1f, 1.1f } : sf::Vector2f{ 0.9f, 0.9f });
 		}
-		else if (const auto* move_event = event->getIf<sf::Event::MouseMoved>())
+		else if (event->getIf<sf::Event::MouseMoved>())
 		{
 			if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
 			{
 				static constexpr float modifier = 1.0f;
-				const sf::Vector2i new_cursor_pos = sf::Mouse::getPosition();;
+				const sf::Vector2i new_cursor_pos = sf::Mouse::getPosition();
 				const sf::Vector2i delta = new_cursor_pos - m_old_cursor_pos;
-				m_map_sprite.move({ (float)delta.x * modifier, (float)delta.y * modifier });
+				m_map_sprite.move({ static_cast<float>(delta.x) * modifier, static_cast<float>(delta.y) * modifier });
 			}
 		}
 	}
@@ -146,7 +146,7 @@ void View::AddImGui()
 		const char* pathfinding_items[PathfinderTypes::COUNT] = { "A*", "BFS", "DFS", "Dijkstra's" };
 		const char* combo_type = pathfinding_items[current_type_index];
 
-		const ImGuiTabBarFlags tab_bar_flags = ImGuiTabBarFlags_None;
+		constexpr ImGuiTabBarFlags tab_bar_flags = ImGuiTabBarFlags_None;
 		if (ImGui::BeginTabBar("TabBar", tab_bar_flags))
 		{
 			if (ImGui::BeginTabItem("Map Data"))
@@ -161,7 +161,7 @@ void View::AddImGui()
 
 				if (ImGui::Button("Reload Image"))
 				{
-					did_load_correctly = m_view_model.ChangeMapEvent(m_image_path);
+					did_load_correctly = m_view_model.ChangeMapCommand(m_image_path);
 					if (did_load_correctly)
 					{
 						RefreshVisuals(m_image_path);
@@ -195,13 +195,13 @@ void View::AddImGui()
 				if (ImGui::Button("Find Path"))
 				{
 					reset_data_for_test(individual_results);
-					RunTest((PathfinderTypes)current_type_index, 1, m_image_path, individual_results);
+					RunTest(static_cast<PathfinderTypes>(current_type_index), 1, m_image_path, individual_results);
 
 					const QueryResult& query_result = individual_results.queries[0];
 					const Map& map = m_view_model.GetMap();
 					for (const auto& index : query_result.out_path)
 					{
-						const sf::Vector2u pixel_coords = { (unsigned)map.GetCoordForIndex(index).x, (unsigned)map.GetCoordForIndex(index).y };
+						const sf::Vector2u pixel_coords = { static_cast<unsigned>(map.GetCoordForIndex(index).x), static_cast<unsigned>(map.GetCoordForIndex(index).y) };
 						m_map_image.setPixel(pixel_coords, pathfinder_colours[current_type_index]);
 					}
 					update_map_image();
@@ -211,7 +211,7 @@ void View::AddImGui()
 				for (const auto& query : individual_results.queries)
 				{
 					ImGui::Text("Type - %s", pathfinder_strings[query.type].data());
-					ImGui::Text("Number of moves - %u", query.out_path.size());
+					ImGui::Text("Number of moves - %u", static_cast<unsigned>(query.out_path.size()));
 					ImGui::Text("Time Taken - %fs", query.calc_time.asSeconds());
 					ImGui::Separator();
 				}
@@ -227,12 +227,12 @@ void View::AddImGui()
 					const Map& map = m_view_model.GetMap();
 					for (int i = 0; i < PathfinderTypes::COUNT; ++i)
 					{
-						RunTest((PathfinderTypes)i, 1, m_image_path, group_results);
+						RunTest(static_cast<PathfinderTypes>(i), 1, m_image_path, group_results);
 
 						const QueryResult& query_result = group_results.queries.back();
 						for (const auto& index : query_result.out_path)
 						{
-							const sf::Vector2u pixel_coords = { (unsigned)map.GetCoordForIndex(index).x, (unsigned)map.GetCoordForIndex(index).y };
+							const sf::Vector2u pixel_coords = { static_cast<unsigned>(map.GetCoordForIndex(index).x), static_cast<unsigned>(map.GetCoordForIndex(index).y) };
 							m_map_image.setPixel(pixel_coords, pathfinder_colours[i]);
 						}
 					}
@@ -243,7 +243,7 @@ void View::AddImGui()
 				for (const auto& query : group_results.queries)
 				{
 					ImGui::Text("Type - %s", pathfinder_strings[query.type].data());
-					ImGui::Text("Number of moves - %u", query.out_path.size());
+					ImGui::Text("Number of moves - %u", static_cast<unsigned>(query.out_path.size()));
 					ImGui::Text("Time Taken - %fs", query.calc_time.asSeconds());
 					ImGui::Separator();
 				}

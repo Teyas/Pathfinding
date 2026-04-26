@@ -6,18 +6,18 @@
 class Model;
 struct Map;
 
-enum PathfinderTypes;
+enum PathfinderTypes : int;
 
 class ViewModel
 {
 public:
 	ViewModel(Model& model);
 
-	const std::string& GetFilepath() const;
-	const Map& GetMap() const;
+	[[nodiscard]] const std::string& GetFilepath() const;
+	[[nodiscard]] const Map& GetMap() const;
 
-	bool RunPathfinderEvent(const PathfinderTypes type, std::vector<int>& out_path);
-	bool ChangeMapEvent(const std::string& filepath);
+	[[nodiscard]] bool RunPathfinderCommand(const PathfinderTypes type, std::vector<int>& out_path) const;
+	[[nodiscard]] bool ChangeMapCommand(const std::string& filepath) const;
 
 private:
 	Model& m_model;

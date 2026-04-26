@@ -1,6 +1,6 @@
 #include "Utils.h"
 
-#include <assert.h>
+#include <cassert>
 
 // Don't like including everything here but can't be bothered to do fancy stuff to avoid it for now
 #include "Pathfinding/BFS.h"

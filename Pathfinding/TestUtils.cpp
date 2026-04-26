@@ -29,9 +29,8 @@ void RunTest(const PathfinderTypes type, const int num_of_runs, const std::strin
 		QueryResult& result = results.queries.emplace_back();
 		result.type = type;
 		result.file = map_file;
-
-		PathfindFunc func = GetFuncForType(type);
-		if (func) 
+		
+		if (PathfindFunc func = GetFuncForType(type)) 
 		{
 			sf::Clock timer;
 			result.did_find_path = func(model, result.out_path);

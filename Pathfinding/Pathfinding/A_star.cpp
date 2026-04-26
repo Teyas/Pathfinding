@@ -3,9 +3,13 @@
 
 #include <queue>
 
+namespace
+{
+	auto queue_compare_func = [](const astar::OpenNodeInfo& lhs, const astar::OpenNodeInfo& rhs) { return lhs.f > rhs.f; };
+}
+
 namespace astar
 {
-	auto queue_compare_func = [](const OpenNodeInfo& lhs, const OpenNodeInfo& rhs) { return lhs.f > rhs.f; };
 	using OpenNodeQueue = std::priority_queue<OpenNodeInfo, std::vector<OpenNodeInfo>, decltype(queue_compare_func)>;
 
 	bool FindPath(const Model& model, std::vector<int>& out_path)
@@ -35,7 +39,7 @@ namespace astar
 			if (current_node.index == end_index)
 			{
 				// backtrack path
-				unsigned parent_idx = node_info_list[current_node.index].parent_index;
+				int parent_idx = node_info_list[current_node.index].parent_index;
 				while (parent_idx != start_index)
 				{
 					out_path.push_back(parent_idx);
@@ -54,7 +58,7 @@ namespace astar
 					const int neighbour_g = current_node.g + 1;
 					if (node_info_list[neighbour_index].total_cost == invalid_cost || neighbour_g < node_info_list[neighbour_index].total_cost)
 					{
-						OpenNodeInfo neighbour_info = {};
+						OpenNodeInfo neighbour_info;
 						neighbour_info.index = neighbour_index;
 						neighbour_info.g = neighbour_g;
 						neighbour_info.h = std::abs(current_x - end.x) + std::abs(current_y - end.y);

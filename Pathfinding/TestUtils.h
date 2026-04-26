@@ -6,7 +6,7 @@
 #include <vector>
 
 class Model;
-enum PathfinderTypes;
+enum PathfinderTypes : int;
 
 static inline std::vector<std::string> map_list = {};
 
@@ -30,9 +30,9 @@ static const std::vector<sf::Color> pathfinder_colours =
 
 struct QueryResult
 {
+	sf::Time calc_time;
 	PathfinderTypes type;
 	bool did_find_path = false;
-	sf::Time calc_time;
 	std::string file;
 	std::vector<int> out_path;
 };

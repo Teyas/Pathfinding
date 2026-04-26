@@ -1,9 +1,8 @@
 #pragma once
 
-#include <string>
 #include <vector>
 
-enum PathfinderTypes
+enum PathfinderTypes : int
 {
 	A_STAR,
 	BFS,

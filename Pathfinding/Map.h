@@ -13,19 +13,22 @@ struct Map
 	void SetDimensions(const sf::Vector2i dims)
 	{
 		dimensions = { dims.x, dims.y };
-		data.resize(dims.x * dims.y);
+		data.resize(static_cast<unsigned long long>(dims.x) * static_cast<unsigned long long>(dims.y));
 	}
 
+	[[nodiscard]]
 	__forceinline int GetIndexForCoords(const int x, const int y) const
 	{
 		return (y * dimensions.x) + x;
 	}
 
+	[[nodiscard]]
 	__forceinline int GetIndexForCoords(const sf::Vector2i coord) const
 	{
 		return GetIndexForCoords(coord.x, coord.y);
 	}
-
+	
+	[[nodiscard]]
 	__forceinline sf::Vector2i GetCoordForIndex(const int index) const
 	{
 		return { index % dimensions.x, index / dimensions.x };

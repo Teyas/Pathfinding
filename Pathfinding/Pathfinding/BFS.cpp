@@ -18,13 +18,13 @@ namespace bfs
 		std::vector<int> connection_lookup;
 		connection_lookup.resize(map.data.size(), Map::invalid_node);
 
-		for (int queue_head = 0u; queue_head < node_queue.size(); ++queue_head)
+		for (int queue_head = 0u; queue_head < static_cast<int>(node_queue.size()); ++queue_head)
 		{
 			const int current_node_index = node_queue[queue_head];
 			if (current_node_index == end_index)
 			{
 				// backtrack path
-				unsigned parent_idx = connection_lookup[current_node_index];
+				int parent_idx = connection_lookup[current_node_index];
 				while (parent_idx != start_index)
 				{
 					out_path.push_back(parent_idx);

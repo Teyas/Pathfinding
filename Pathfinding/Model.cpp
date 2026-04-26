@@ -15,7 +15,7 @@ bool Model::LoadMapData(const std::string& filepath)
 		return false;
 	}
 
-	const sf::Vector2i map_size = { (int)map_image.getSize().x, (int)map_image.getSize().y };
+	const sf::Vector2i map_size = { static_cast<int>(map_image.getSize().x), static_cast<int>(map_image.getSize().y) };
 	m_map.SetDimensions(map_size);
 
 	// Loop through every pixel from top left to bottom right
@@ -26,7 +26,7 @@ bool Model::LoadMapData(const std::string& filepath)
 		for (int y = 0; y < map_size.y; ++y)
 		{
 			const int data_index = m_map.GetIndexForCoords(x, y);
-			const sf::Color pixel_colour = map_image.getPixel({ (unsigned)x, (unsigned)y });
+			const sf::Color pixel_colour = map_image.getPixel({ static_cast<unsigned>(x), static_cast<unsigned>(y) });
 			if (pixel_colour == start_colour)
 			{
 				m_map.data[data_index] = 0.0f;
