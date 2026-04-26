@@ -7,9 +7,8 @@ int main()
 {
 	LoadAllMapFilepaths();
 
-	Model model;
-
 	static constexpr const char* filepath = "Assets/Maps/map_c.png";
+	Model model;
 	model.LoadMapData(filepath);
 
 	ViewModel view_model(model);
